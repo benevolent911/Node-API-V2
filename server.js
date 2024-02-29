@@ -2,6 +2,8 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const productRoute = require("./routes/productRoute");
+const errorMiddleware = require("./middleware/errorMiddleware");
+
 const app = express();
 
 const PORT = process.env.PORT || 3000;
@@ -19,6 +21,8 @@ app.get("/", (req, res) => {
 app.get("/blog", (req, res) => {
   res.send("Hello Blog");
 });
+
+app.use(errorMiddleware);
 
 mongoose
   .connect(MONGO_URL)
