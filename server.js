@@ -61,6 +61,22 @@ app.put("/products/:id", async (req, res) => {
   }
 });
 
+app.delete("/products/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const product = await Product.findOneAndDelete(id);
+    if (!product) {
+      return res
+        .status(404)
+        .json({ message: `Cannot find product with ID ${id}` });
+    }
+    res.status(200).json(product);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ message: error.message });
+  }
+});
+
 mongoose
   .connect(
     "mongodb+srv://admin:1qaz2wsx@cluster0api.szjncpp.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0API"
